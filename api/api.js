@@ -5,10 +5,12 @@ const basePrefix = "/api/";
 import {
     drinkInfoRoute,
     getIngredientsRoute,
+    randomDrinkRoute,
     searchByIngredientsRoute,
+    searchByNameRoute
 } from "./routes";
 const baseRoute = protocol + "://" + ip + ":" + port + basePrefix;
-
+const staticRoute = protocol + "://" + ip + ":" + port;
 function parseJSON(response) {
     if (response.status === 204 || response.status === 205) {
         return null;
@@ -51,7 +53,6 @@ export const api = {
         );
     },
     getIngredients: () => {
-        console.log(baseRoute + getIngredientsRoute);
         return request(
             baseRoute + getIngredientsRoute,
             { "Content-Type": "application/json" },
@@ -65,4 +66,21 @@ export const api = {
             "GET"
         );
     },
+    searchDrinksByName: (query) => {
+        return request(
+            baseRoute + searchByNameRoute + query,
+            { "Content-Type": "application/json" },
+            "GET"
+        )
+    },
+    getImageUrl: (url) => {
+        return staticRoute + url
+    },
+    getRandomDrink: () => {
+        return request(
+            baseRoute + randomDrinkRoute,
+            { "Content-Type": "application/json" },
+            "GET"
+        )
+    }
 };

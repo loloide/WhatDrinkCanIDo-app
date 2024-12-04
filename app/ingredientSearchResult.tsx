@@ -5,15 +5,16 @@ import {
     StyleSheet,
     ScrollView,
     TouchableOpacity,
+    ActivityIndicator,
 } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { useEffect, useState } from "react";
-import { api } from "../api/api";
+import { api } from "@/api/api";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { routeToScreen } from "expo-router/build/useScreens";
 
-export default function SearchResults() {
+export default function IngredientSearchResults() {
     const router = useRouter();
     const params = useLocalSearchParams();
 
@@ -31,27 +32,35 @@ export default function SearchResults() {
     }, []);
 
     return (
-        <ScrollView
-            style={{
-                backgroundColor: useThemeColor({}, "background"),
-                paddingBottom: 50,
-            }}
-        >
-            <ThemedView style={styles.container}>
-                <Stack.Screen
-                    options={{
-                        title: "Drinks with",
-                    }}
-                />
-                {drinks && drinks.length > 0 ? (
-                    drinks.map((item, index) => (
-                        <DrinkCard key={index} drink={item} />
-                    ))
+        <ThemedView style={styles.container}>
+            <Stack.Screen
+                options={{
+                    title: "Search with ingredients",
+                }}
+            />
+            <ScrollView
+                style={{
+                    backgroundColor: useThemeColor({}, "background"),
+                    flex: 1,
+                }}
+                contentContainerStyle={{ paddingBottom: 30 }}
+            >
+                {drinks ? (
+                    drinks.length > 0 ? (
+                        drinks.map((item, index) => (
+                            <DrinkCard key={index} drink={item} />
+                        ))
+                    ) : (
+                        <ThemedText style={{textAlign: "center", margin: 10}}>No drinks found</ThemedText>
+                    )
                 ) : (
-                    <ThemedText>No drinks available</ThemedText>
+                    <ActivityIndicator
+                            style={{ marginTop: 10 }}
+                            size="large"
+                        />
                 )}
-            </ThemedView>
-        </ScrollView>
+            </ScrollView>
+        </ThemedView>
     );
 }
 interface Drink {
@@ -88,7 +97,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: "column",
-        paddingBottom: 50,
         //alignItems: "center",
     },
     card: {

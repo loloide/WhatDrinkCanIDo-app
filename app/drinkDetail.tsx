@@ -1,38 +1,43 @@
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { useEffect, useState } from "react";
-import { api } from "../api/api";
+import { api } from "@/api/api";
 import { useThemeColor } from "@/hooks/useThemeColor";
 
 interface Drink {
+    image: any;
     id: string;
     name: string;
     desc: string;
 }
 
 export default function DrinkDetail() {
-    const router = useRouter();
     const params = useLocalSearchParams();
 
     const [drink, setDrink] = useState<Drink | null>(null);
+    const [drinkImage, setDrinkImage] = useState("");
 
     async function fetchDrink() {
-        const response = await api.getDrinkInfo(params.drink as string); // Ensure params.drink is typed correctly
+        const response = await api.getDrinkInfo(params.drink as string);
+        if (response.image) {
+            var imageUrl = api.getImageUrl(response.image);
+            setDrinkImage(imageUrl);
+        }
         setDrink(response);
     }
 
     useEffect(() => {
         fetchDrink();
     }, []);
-
     return (
         <ScrollView
             style={{
                 backgroundColor: useThemeColor({}, "background"),
                 paddingBottom: 50,
             }}
+            contentContainerStyle={{ paddingBottom: 30 }}
         >
             <ThemedView style={styles.container}>
                 <Stack.Screen
@@ -42,19 +47,24 @@ export default function DrinkDetail() {
                 />
                 {drink ? (
                     <ThemedView>
-                        <ThemedText
-                            style={{
-                                textAlign: "center",
-                                fontSize: 48,
-                                paddingTop: 24,
-                            }}
-                        >
+                        <ThemedText style={[styles.title, styles.titleImage]}>
                             {drink.name}
                         </ThemedText>
 
-                        <ThemedText style={{ marginTop: 40 }}>
+                        <ThemedText style={[styles.titleImage]}>
                             {drink.desc}
                         </ThemedText>
+
+                        {drink.image ? (
+                            <Image
+                                style={[styles.image, styles.titleImage]}
+                                source={{
+                                    uri: drinkImage,
+                                }}
+                                alt="asd"
+                                resizeMode="cover"
+                            />
+                        ) : null}
                     </ThemedView>
                 ) : (
                     <ThemedText>No drinks available</ThemedText>
@@ -63,6 +73,8 @@ export default function DrinkDetail() {
         </ScrollView>
     );
 }
+
+const radius = 5;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -72,12 +84,23 @@ const styles = StyleSheet.create({
         padding: 10,
         //alignItems: "center",
     },
-    card: {
-        marginTop: 5,
-        marginHorizontal: 5,
-        padding: 10,
-        borderColor: "#fff",
-        borderRadius: 5,
-        borderWidth: 1,
+    image: {
+        alignSelf: "center",
+        flex: 1,
+        width: "100%",
+        height: 400,
+    },
+    title: {
+        //textAlign: "center",
+        fontSize: 36,
+        paddingTop: 18,
+        paddingBottom: 0,
+    },
+    titleImage: {
+        borderRadius: radius,
+        borderColor: "white",
+        borderWidth: 2,
+        marginBottom: 10,
+        padding: radius,
     },
 });

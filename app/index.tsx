@@ -59,52 +59,59 @@ export default function home() {
         );
     }
 
+    function handleSearch() {
+        router.push({
+            pathname: "/nameSearchResult",
+            params: { name: nameSearch },
+        });
+    }
 
     const router = useRouter();
     return (
         <ParallaxScrollView
             headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
-            headerImage={featureDrink ? (
-                        <TouchableOpacity
-                            onPress={() => {
-                                router.push({
-                                    pathname: "/drinkDetail",
-                                    params: { drink: featureDrink.id },
-                                });
+            headerImage={
+                featureDrink ? (
+                    <TouchableOpacity
+                        onPress={() => {
+                            router.push({
+                                pathname: "/drinkDetail",
+                                params: { drink: featureDrink.id },
+                            });
+                        }}
+                    >
+                        <Image
+                            source={{
+                                uri: api.getImageUrl(featureDrink.image),
+                            }}
+                            style={styles.reactLogo}
+                        />
+                        <Text
+                            style={{
+                                position: "absolute",
+                                textAlign: "right",
+                                right: 0,
+                                bottom: 0,
+                                fontSize: 24,
+                                padding: 10,
+                                backgroundColor: "#fff",
+                                borderTopLeftRadius: 5,
                             }}
                         >
-                            <Image
-                                source={{
-                                    uri: api.getImageUrl(featureDrink.image),
-                                }}
-                                style={styles.reactLogo}
-                            />
-                            <Text
-                                style={{
-                                    position: "absolute",
-                                    textAlign: "right",
-                                    right: 0,
-                                    bottom: 0,
-                                    mix: "substract",
-                                    fontSize: 24,
-                                    padding: 10,
-                                    backgroundColor: "#fff",
-                                    borderTopLeftRadius: 5,
-                                }}
-                            >
-                                {featureDrink.name}
-                            </Text>
-                        </TouchableOpacity>
-                    ) : (
-                        require("@/assets/images/partial-react-logo.png")
-                    )}
+                            {featureDrink.name}
+                        </Text>
+                    </TouchableOpacity>
+                ) : (
+                    require("@/assets/images/partial-react-logo.png")
+                )
+            }
         >
             <Stack.Screen
                 options={{
                     title: "WhatDrinkCanIDo",
                 }}
             />
-            <ThemedText style={{ fontSize: 24 }}>
+            <ThemedText  type="subtitle">
                 Busca una bebida que quieras hacer
             </ThemedText>
             <ThemedView
@@ -123,6 +130,9 @@ export default function home() {
                     value={nameSearch}
                     placeholder="Busca una bebida"
                     placeholderTextColor={"#808080"}
+                    onSubmitEditing={()=>{
+                        handleSearch()
+                    }}
                 />
                 <Ionicons
                     style={{
@@ -138,17 +148,16 @@ export default function home() {
                     color={useThemeColor({}, "background")}
                     size={32}
                     onPress={() => {
-                        router.push({
-                            pathname: "/nameSearchResult",
-                            params: { name: nameSearch },
-                        });
+                        handleSearch()
                     }}
                 />
             </ThemedView>
+            
+            {/* <ThemedView style={{borderTopWidth: 1, borderColor: "white"}}/> */}
 
-            <ThemedText style={{ fontSize: 24 }}>
+            <ThemedText  type="subtitle">
                 O selecciona los ingredientes que tengas a disposición
-            </ThemedText>
+            </ThemedText> 
             <TextInput
                 style={styles.input}
                 onChangeText={onChangeText}
@@ -156,6 +165,7 @@ export default function home() {
                 placeholder="Buscar Ingredientes"
                 placeholderTextColor={"#808080"}
             />
+
             <ThemedView>
                 {ingredients ? (
                     ingredients.length > 0 ? (
@@ -188,6 +198,24 @@ const IngredientSelector: React.FC<IngredientSelectorProps> = ({
         []
     );
 
+    const [isCollapsed, setIsCollapsed] = useState(true);
+
+    let filtededIngredients = [...ingredients];
+
+    if (isCollapsed) {
+        filtededIngredients.splice(7); 
+    } else {
+        filtededIngredients = [...ingredients];
+    }
+
+    function toggleCollapsed() {
+        if (isCollapsed == true) {
+            setIsCollapsed(false);
+        } else {
+            setIsCollapsed(true);
+        }
+    }
+
     const toggleIngredient = (ingredientName: string) => {
         setSelectedIngredients((prev) =>
             prev.includes(ingredientName)
@@ -198,28 +226,43 @@ const IngredientSelector: React.FC<IngredientSelectorProps> = ({
     const router = useRouter();
     return (
         <ThemedView style={{ flex: 1, flexDirection: "column" }}>
-            {ingredients && ingredients.length > 0 ? (
-                ingredients.map((item, index) => (
-                    <ThemedView
-                        key={index}
-                        style={{
-                            flexDirection: "row",
-                            alignItems: "center",
-                            marginBottom: 10,
-                            padding: 5,
+            {filtededIngredients && filtededIngredients.length > 0 ? (
+                <ThemedView>
+                    {filtededIngredients.map((item, index) => (
+                        <ThemedView
+                            key={index}
+                            style={{
+                                flexDirection: "row",
+                                alignItems: "center",
+                                marginBottom: 10,
+                                padding: 5,
+                            }}
+                            onTouchEnd={() => {
+                                toggleIngredient(item.name);
+                            }}
+                        >
+                            <Checkbox
+                                value={selectedIngredients.includes(item.name)}
+                            />
+                            <ThemedText style={{ paddingHorizontal: 10 }}>
+                                {item.name}
+                            </ThemedText>
+                        </ThemedView>
+                    ))}
+                    <ThemedText
+                        onPress={() => {
+                            toggleCollapsed();
                         }}
-                        onTouchEnd={() => {
-                            toggleIngredient(item.name);
-                        }}
+                        style={{ textAlign: "center", padding: 10 }}
+                        type="defaultSemiBold"
                     >
-                        <Checkbox
-                            value={selectedIngredients.includes(item.name)}
-                        />
-                        <ThemedText style={{ paddingHorizontal: 10 }}>
-                            {item.name}
-                        </ThemedText>
-                    </ThemedView>
-                ))
+                        <Ionicons size={10} name={isCollapsed ? "chevron-down" : "chevron-up"} />
+                        {isCollapsed == true
+                            ? " Mostrar todos"
+                            : " Mostrar menos"}
+                    </ThemedText>
+                    
+                </ThemedView>
             ) : (
                 <ThemedText>No ingredients available</ThemedText>
             )}
@@ -260,25 +303,11 @@ const IngredientSelector: React.FC<IngredientSelectorProps> = ({
 };
 
 const styles = StyleSheet.create({
-    titleContainer: {
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 8,
-    },
-    stepContainer: {
-        gap: 8,
-        marginBottom: 8,
-    },
     reactLogo: {
         height: 250,
         width: "auto",
         bottom: 0,
         left: 0,
-    },
-    card: {
-        marginTop: 5,
-        marginHorizontal: 5,
-        padding: 10,
     },
     input: {
         color: "white",

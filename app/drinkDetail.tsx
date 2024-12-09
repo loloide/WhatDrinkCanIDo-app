@@ -47,7 +47,7 @@ export default function DrinkDetail() {
                 />
                 {drink ? (
                     <ThemedView>
-                        <ThemedText style={[styles.title, styles.titleImage]}>
+                        <ThemedText  style={[styles.title, styles.titleImage]}>
                             {drink.name}
                         </ThemedText>
 

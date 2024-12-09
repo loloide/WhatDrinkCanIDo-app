@@ -84,10 +84,10 @@ function DrinkCard({ drink }: DrinkCardProps) {
             }}
         >
             <ThemedView style={styles.card}>
-                <ThemedText style={{ fontSize: 32, paddingTop: 10 }}>
+                <ThemedText type="title">
                     {drink.name}
                 </ThemedText>
-                <ThemedText numberOfLines={3}>{drink.desc}</ThemedText>
+                <ThemedText type="default" numberOfLines={3}>{drink.desc}</ThemedText>
             </ThemedView>
         </TouchableOpacity>
     );

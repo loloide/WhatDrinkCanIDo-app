@@ -4,7 +4,7 @@ const port = "8000";
 // const domain = "what-drink-can-i-do-api.vercel.app";
 // const basePrefix = "/api/";
 import drinks from "./drinks.json";
-import ingredients from "./ingredients.json"
+import ingredients from "./ingredients.json";
 // import {
 //     drinkInfoRoute,
 //     getIngredientsRoute,
@@ -49,10 +49,10 @@ const staticRoute = protocol + "://" + ip + ":" + port;
 
 export const api = {
     getDrinkInfo: (id) => {
-        return drinks[id]
+        return drinks[id];
     },
     getIngredients: () => {
-        return ingredients
+        return ingredients;
     },
     searchDrinksByIngreditents: (QueryIngredients) => {
         QueryIngredients = QueryIngredients.split(",");
@@ -75,23 +75,21 @@ export const api = {
         return res;
     },
     searchDrinksByName: (query) => {
-        console.log(query)
-        var i = 0
-        var res = []
+        console.log(query);
+        var i = 0;
+        var res = [];
 
         for (let drink in drinks) {
-            let name = drinks[drink]["name"].toLowerCase()
+            let name = drinks[drink]["name"].toLowerCase();
             //console.log(name)
             if (name.includes(query)) {
-                console.log(name)
                 drinks[drink]["id"] = i;
                 res.push(drinks[drink]);
             }
-            i = i + 1
+            i = i + 1;
         }
-        
-        console.log(res)
-        return res
+
+        return res;
     },
     getImageUrl: (url) => {
         return staticRoute + url;

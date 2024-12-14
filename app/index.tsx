@@ -29,22 +29,22 @@ export default function home() {
         setIngredients(response);
     }
 
-    async function fetchFeatureDrink() {
-        const response = await api.getRandomDrink();
-        setFeatureDrink(response);
-    }
+    // async function fetchFeatureDrink() {
+    //     const response = await api.getRandomDrink();
+    //     setFeatureDrink(response);
+    // }
 
     useEffect(() => {
         fetchIngredients();
-        fetchFeatureDrink();
+        
+        //fetchFeatureDrink();
+        // const interval = setInterval(() => {
+        //     fetchFeatureDrink();
+        // }, 10000);
 
-        const interval = setInterval(() => {
-            fetchFeatureDrink();
-        }, 10000);
-
-        return () => {
-            clearInterval(interval);
-        };
+        // return () => {
+        //     clearInterval(interval);
+        // };
     }, []);
 
     function filterIngredients(query: string) {
@@ -81,9 +81,7 @@ export default function home() {
                         }}
                     >
                         <Image
-                            source={{
-                                uri: api.getImageUrl(featureDrink.image),
-                            }}
+                            source={require("../assets/images/partial-react-logo.png")}
                             style={styles.reactLogo}
                         />
                         <Text
@@ -102,7 +100,10 @@ export default function home() {
                         </Text>
                     </TouchableOpacity>
                 ) : (
-                    require("@/assets/images/partial-react-logo.png")
+                    <Image
+                            source={require("../assets/images/partial-react-logo.png")}
+                            style={styles.reactLogo}
+                        />
                 )
             }
         >
@@ -304,7 +305,7 @@ const IngredientSelector: React.FC<IngredientSelectorProps> = ({
 
 const styles = StyleSheet.create({
     reactLogo: {
-        height: 250,
+        height: 200,
         width: "auto",
         bottom: 0,
         left: 0,

@@ -47,7 +47,7 @@ export default function DrinkDetail() {
                 />
                 {drink ? (
                     <ThemedView>
-                        <ThemedText  style={[styles.title, styles.titleImage]}>
+                        <ThemedText style={[styles.title, styles.titleImage]}>
                             {drink.name}
                         </ThemedText>
 
@@ -101,6 +101,6 @@ const styles = StyleSheet.create({
         borderColor: "white",
         borderWidth: 2,
         marginBottom: 10,
-        padding: radius,
+        padding: radius + 2,
     },
 });

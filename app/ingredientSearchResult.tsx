@@ -43,7 +43,7 @@ export default function IngredientSearchResults() {
                     backgroundColor: useThemeColor({}, "background"),
                     flex: 1,
                 }}
-                contentContainerStyle={{ paddingBottom: 30 }}
+                contentContainerStyle={{ paddingBottom: 100 }}
             >
                 {drinks ? (
                     drinks.length > 0 ? (

@@ -1,0 +1,100 @@
+[
+    {
+        "name": "Margarita",
+        "desc": "6p Teuqila\r\n2 Triple Sec\r\n4p Jugo de Limon\r\nSal\r\nAdornar con lima",
+        "image": "/whatdrinkcanido/static/drink_pictures/Frozen-Margarita-1500x1500-hero-191e49b3ab4f4781b9_YuYhPJg.jpg",
+        "id": 6,
+        "ingredients": [
+            "Tequila",
+            "Jugo de Limon",
+            "Triple Sec"
+        ],
+        "created_at": "2024-11-28T00:43:06.251952+00:00",
+        "updated_at": "2024-11-29T21:48:22.476353+00:00"
+    },
+    {
+        "name": "Negroni",
+        "desc": "4p Gin\r\n2p Bitter\r\n1p Vermouth\r\nPiel de naranja",
+        "image": null,
+        "id": 4,
+        "ingredients": [
+            "Gin",
+            "Vermouth Dulce",
+            "Bitter"
+        ],
+        "created_at": "2024-11-28T00:35:21.465169+00:00",
+        "updated_at": "2024-11-28T03:40:29.625393+00:00"
+    },
+    {
+        "name": "Martini",
+        "desc": "6p Gin\r\n1p Vermouth Seco\r\nAdornar con aceituna",
+        "image": null,
+        "id": 5,
+        "ingredients": [
+            "Gin",
+            "Vermouth Seco"
+        ],
+        "created_at": "2024-11-28T00:38:52.047080+00:00",
+        "updated_at": "2024-11-28T03:40:13.879851+00:00"
+    },
+    {
+        "name": "Tom Collins",
+        "desc": "6p Gin\r\n4p Jugo de limon\r\n1p de almibar\r\nSoda\r\nGuinda\r\nRodaja de Naranja",
+        "image": null,
+        "id": 7,
+        "ingredients": [
+            "Gin",
+            "Jugo de Limon",
+            "Soda"
+        ],
+        "created_at": "2024-11-28T00:45:01.960354+00:00",
+        "updated_at": "2024-11-28T03:39:44.755989+00:00"
+    },
+    {
+        "name": "Limonada",
+        "desc": "5p Agua\r\n1p Jugo de Limon",
+        "image": "/whatdrinkcanido/static/drink_pictures/Lemonade-2-2.webp",
+        "id": 3,
+        "ingredients": [
+            "Jugo de Limon"
+        ],
+        "created_at": "2024-11-26T02:33:01.682658+00:00",
+        "updated_at": "2024-11-30T23:51:24.041349+00:00"
+    },
+    {
+        "name": "Fernet Cola",
+        "desc": "2p Fernet\r\n1p Coca-Cola\r\n\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n.\r\n\r\nASDSA",
+        "image": "/whatdrinkcanido/static/drink_pictures/Fernet_and_Coke_Fernet_con_Coca_hW1nh4E.jpg",
+        "id": 8,
+        "ingredients": [
+            "Fernet",
+            "Coca-Cola"
+        ],
+        "created_at": "2024-11-28T00:46:05.202813+00:00",
+        "updated_at": "2024-12-03T18:03:29.125543+00:00"
+    },
+    {
+        "name": "Campari",
+        "desc": "1p Campari\r\n2p Naranja",
+        "image": "/whatdrinkcanido/static/drink_pictures/campc-00011-b769808f440b21f07415749347933957-1024-_xfUcyTs.jpg",
+        "id": 9,
+        "ingredients": [
+            "Campari",
+            "Jugo de Naranja"
+        ],
+        "created_at": "2024-11-28T01:08:13.893585+00:00",
+        "updated_at": "2024-12-02T15:08:05.094574+00:00"
+    },
+    {
+        "name": "Caramel affogatto",
+        "desc": "Cafe en helado\r\nsi prefiere puede agregar un poco de jarabe de caramelo",
+        "image": null,
+        "id": 10,
+        "ingredients": [
+            "Cafe",
+            "Helado"
+        ],
+        "created_at": "2024-11-28T13:05:17.178298+00:00",
+        "updated_at": "2024-11-28T13:38:18.201790+00:00"
+    }
+]

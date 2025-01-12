@@ -5,6 +5,7 @@ const port = "8000";
 // const basePrefix = "/api/";
 import drinks from "./drinks.json";
 import ingredients from "./ingredients.json";
+import names from "./names.json";
 // import {
 //     drinkInfoRoute,
 //     getIngredientsRoute,
@@ -47,6 +48,16 @@ const staticRoute = protocol + "://" + ip + ":" + port;
 //     return response;
 // }
 
+function searchCocktails(cocktails, query) {
+    // Normalize query to lowercase for case-insensitive comparison
+    const lowerCaseQuery = query.toLowerCase();
+
+    // Filter the cocktails array based on the query
+    return drinks.filter((cocktail) =>
+        cocktail.strDrink.toLowerCase().includes(lowerCaseQuery)
+    );
+}
+
 export const api = {
     getDrinkInfo: (id) => {
         return drinks[id];
@@ -56,40 +67,45 @@ export const api = {
     },
     searchDrinksByIngreditents: (QueryIngredients) => {
         QueryIngredients = QueryIngredients.split(",");
-        var i = 0;
+
+        var i = 1;
         var res = [];
         for (let drink of drinks) {
             let add = true;
-            for (let ingredient of drink.ingredients) {
-                if (!QueryIngredients.includes(ingredient)) {
+            i = 1;
+            while (add == true && i < 16) {
+                var ing = "strIngredient" + i;
+                if (drink[ing] == "") {
+                    break;
+                }
+                if (!QueryIngredients.includes(drink[ing])) {
                     add = false;
                     break;
                 }
+                i = i + 1;
             }
             if (add) {
-                drink["id"] = i;
                 res.push(drink);
             }
-            i = i + 1;
         }
         return res;
     },
     searchDrinksByName: (query) => {
-        console.log(query);
-        var i = 0;
-        var res = [];
+        if (query == "") {
+            return drinks;
+        } else {
+            var res = [];
 
-        for (let drink in drinks) {
-            let name = drinks[drink]["name"].toLowerCase();
-            //console.log(name)
-            if (name.includes(query)) {
-                drinks[drink]["id"] = i;
-                res.push(drinks[drink]);
+            for (var drink of drinks) {
+                if (
+                    drink.strDrink.toLowerCase().includes(query.toLowerCase())
+                ) {
+                    res.push(drink);
+                }
             }
-            i = i + 1;
-        }
 
-        return res;
+            return res;
+        }
     },
     getImageUrl: (url) => {
         return staticRoute + url;

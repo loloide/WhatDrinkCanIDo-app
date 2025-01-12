@@ -6,6 +6,7 @@ import {
     ScrollView,
     TouchableOpacity,
     ActivityIndicator,
+    Image,
 } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
@@ -51,13 +52,29 @@ export default function IngredientSearchResults() {
                             <DrinkCard key={index} drink={item} />
                         ))
                     ) : (
-                        <ThemedText style={{textAlign: "center", margin: 10}}>No drinks found</ThemedText>
+                        <ThemedView
+                            style={{
+                                justifyContent: "center",
+                                margin: 30,
+                            }}
+                        >
+                            <Image
+                                style={[styles.image]}
+                                source={require("../assets/images/404.png")}
+                                alt="Drink image"
+                                resizeMode="cover"
+                            />
+                            <ThemedText
+                                style={{ textAlign: "center" }}
+                                type="subtitle"
+                            >
+                                Sorry, I couldn't find any drinks with those
+                                ingredients
+                            </ThemedText>
+                        </ThemedView>
                     )
                 ) : (
-                    <ActivityIndicator
-                            style={{ marginTop: 10 }}
-                            size="large"
-                        />
+                    <ActivityIndicator style={{ marginTop: 10 }} size="large" />
                 )}
             </ScrollView>
         </ThemedView>
@@ -68,9 +85,6 @@ interface Drink {
     name: string;
     desc: string;
 }
-interface DrinkCardProps {
-    drink: Drink;
-}
 
 function DrinkCard({ drink }: DrinkCardProps) {
     const router = useRouter();
@@ -79,15 +93,15 @@ function DrinkCard({ drink }: DrinkCardProps) {
             onPress={() => {
                 router.push({
                     pathname: "/drinkDetail",
-                    params: { drink: drink.id },
+                    params: { drink: drink[""] },
                 });
             }}
         >
             <ThemedView style={styles.card}>
-                <ThemedText type="title">
-                    {drink.name}
+                <ThemedText type="title">{drink.strDrink}</ThemedText>
+                <ThemedText type="default" numberOfLines={3}>
+                    {drink.strInstructions}
                 </ThemedText>
-                <ThemedText type="default" numberOfLines={3}>{drink.desc}</ThemedText>
             </ThemedView>
         </TouchableOpacity>
     );
@@ -106,5 +120,11 @@ const styles = StyleSheet.create({
         borderColor: "#fff",
         borderRadius: 5,
         borderWidth: 1,
+    },
+    image: {
+        alignSelf: "center",
+        flex: 1,
+        width: "100%",
+        height: 300,
     },
 });

@@ -20,12 +20,9 @@ export default function NameSearchResults() {
     const [drinks, setDrinks] = useState([]);
 
     async function fetchDrinks() {
-        const response = await api.searchDrinksByName(
-            params.name
-        );
+        const response = await api.searchDrinksByName(params.name);
         setDrinks(response);
     }
-
 
     useEffect(() => {
         fetchDrinks();
@@ -46,18 +43,11 @@ export default function NameSearchResults() {
                 contentContainerStyle={{ paddingBottom: 30 }}
             >
                 {drinks ? (
-                    drinks.length > 0 ? (
-                        drinks.map((item, index) => (
-                            <DrinkCard key={index} drink={item} />
-                        ))
-                    ) : (
-                        <ThemedText style={{textAlign: "center", margin: 10}}>No drinks found</ThemedText>
-                    )
+                    drinks.map((item, index) => (
+                        <DrinkCard key={index} drink={item} />
+                    ))
                 ) : (
-                    <ActivityIndicator
-                            style={{ marginTop: 10 }}
-                            size="large"
-                        />
+                    <ActivityIndicator style={{ marginTop: 10 }} size="large" />
                 )}
             </ScrollView>
         </ThemedView>
@@ -79,15 +69,15 @@ function DrinkCard({ drink }: DrinkCardProps) {
             onPress={() => {
                 router.push({
                     pathname: "/drinkDetail",
-                    params: { drink: drink.id },
+                    params: { drink: drink[""] },
                 });
             }}
         >
             <ThemedView style={styles.card}>
-                <ThemedText type="title">
-                    {drink.name}
+                <ThemedText type="title">{drink.strDrink}</ThemedText>
+                <ThemedText type="default" numberOfLines={3}>
+                    {drink.strInstructions}
                 </ThemedText>
-                <ThemedText type="default" numberOfLines={3}>{drink.desc}</ThemedText>
             </ThemedView>
         </TouchableOpacity>
     );

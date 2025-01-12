@@ -36,7 +36,7 @@ export default function home() {
 
     useEffect(() => {
         fetchIngredients();
-        
+
         //fetchFeatureDrink();
         // const interval = setInterval(() => {
         //     fetchFeatureDrink();
@@ -101,9 +101,9 @@ export default function home() {
                     </TouchableOpacity>
                 ) : (
                     <Image
-                            source={require("../assets/images/partial-react-logo.png")}
-                            style={styles.reactLogo}
-                        />
+                        source={require("../assets/images/partial-react-logo.png")}
+                        style={styles.reactLogo}
+                    />
                 )
             }
         >
@@ -112,7 +112,7 @@ export default function home() {
                     title: "WhatDrinkCanIDo",
                 }}
             />
-            <ThemedText  type="subtitle">
+            <ThemedText type="subtitle">
                 Busca una bebida que quieras hacer
             </ThemedText>
             <ThemedView
@@ -131,8 +131,8 @@ export default function home() {
                     value={nameSearch}
                     placeholder="Busca una bebida"
                     placeholderTextColor={"#808080"}
-                    onSubmitEditing={()=>{
-                        handleSearch()
+                    onSubmitEditing={() => {
+                        handleSearch();
                     }}
                 />
                 <Ionicons
@@ -149,16 +149,16 @@ export default function home() {
                     color={useThemeColor({}, "background")}
                     size={32}
                     onPress={() => {
-                        handleSearch()
+                        handleSearch();
                     }}
                 />
             </ThemedView>
-            
+
             {/* <ThemedView style={{borderTopWidth: 1, borderColor: "white"}}/> */}
 
-            <ThemedText  type="subtitle">
+            <ThemedText type="subtitle">
                 O selecciona los ingredientes que tengas a disposición
-            </ThemedText> 
+            </ThemedText>
             <TextInput
                 style={styles.input}
                 onChangeText={onChangeText}
@@ -195,16 +195,18 @@ interface IngredientSelectorProps {
 const IngredientSelector: React.FC<IngredientSelectorProps> = ({
     ingredients,
 }) => {
-    const [selectedIngredients, setSelectedIngredients] = useState<string[]>(
-        []
-    );
+    const [selectedIngredients, setSelectedIngredients] = useState<string[]>([
+        "Ice",
+        "Olive",
+        "Water",
+    ]);
 
     const [isCollapsed, setIsCollapsed] = useState(true);
 
     let filtededIngredients = [...ingredients];
 
     if (isCollapsed) {
-        filtededIngredients.splice(7); 
+        filtededIngredients.splice(7);
     } else {
         filtededIngredients = [...ingredients];
     }
@@ -250,6 +252,7 @@ const IngredientSelector: React.FC<IngredientSelectorProps> = ({
                             </ThemedText>
                         </ThemedView>
                     ))}
+
                     <ThemedText
                         onPress={() => {
                             toggleCollapsed();
@@ -257,12 +260,14 @@ const IngredientSelector: React.FC<IngredientSelectorProps> = ({
                         style={{ textAlign: "center", padding: 10 }}
                         type="defaultSemiBold"
                     >
-                        <Ionicons size={10} name={isCollapsed ? "chevron-down" : "chevron-up"} />
+                        <Ionicons
+                            size={10}
+                            name={isCollapsed ? "chevron-down" : "chevron-up"}
+                        />
                         {isCollapsed == true
                             ? " Mostrar todos"
                             : " Mostrar menos"}
                     </ThemedText>
-                    
                 </ThemedView>
             ) : (
                 <ThemedText>No ingredients available</ThemedText>

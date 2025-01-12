@@ -6,31 +6,34 @@ import { useEffect, useState } from "react";
 import { api } from "@/api/api";
 import { useThemeColor } from "@/hooks/useThemeColor";
 
-interface Drink {
-    image: any;
-    id: string;
-    name: string;
-    desc: string;
-}
-
 export default function DrinkDetail() {
     const params = useLocalSearchParams();
 
-    const [drink, setDrink] = useState<Drink | null>(null);
+    const [drink, setDrink] = useState(null);
     const [drinkImage, setDrinkImage] = useState("");
 
     async function fetchDrink() {
-        const response = await api.getDrinkInfo(params.drink as string);
-        if (response.image) {
-            var imageUrl = api.getImageUrl(response.image);
-            setDrinkImage(imageUrl);
-        }
+        const response = await api.getDrinkInfo(params.drink);
         setDrink(response);
     }
 
     useEffect(() => {
         fetchDrink();
     }, []);
+
+    var ingredients = [];
+    if (drink) {
+        var i = 1;
+        while (i < 16) {
+            if (drink["strIngredient" + i] != "") {
+                ingredients.push({
+                    name: drink["strIngredient" + i],
+                    measure: drink["strMeasure" + i],
+                });
+            }
+            i = i + 1;
+        }
+    }
     return (
         <ScrollView
             style={{
@@ -48,23 +51,27 @@ export default function DrinkDetail() {
                 {drink ? (
                     <ThemedView>
                         <ThemedText style={[styles.title, styles.titleImage]}>
-                            {drink.name}
+                            {drink.strDrink}
                         </ThemedText>
 
-                        <ThemedText style={[styles.titleImage]}>
-                            {drink.desc}
-                        </ThemedText>
+                        <Image
+                            style={[styles.image, styles.titleImage]}
+                            source={{
+                                uri: drink.strDrinkThumb,
+                            }}
+                            alt="Drink image"
+                            resizeMode="cover"
+                        />
 
-                        {drink.image ? (
-                            <Image
-                                style={[styles.image, styles.titleImage]}
-                                source={{
-                                    uri: drinkImage,
-                                }}
-                                alt="asd"
-                                resizeMode="cover"
-                            />
-                        ) : null}
+                        <ThemedView style={[styles.titleImage]}>
+                            {ingredients.map((item, index) => (
+                                <ThemedText key={index}>
+                                    {item.measure} {item.name}
+                                </ThemedText>
+                            ))}
+                            <ThemedText></ThemedText>
+                            <ThemedText>{drink.strInstructions}</ThemedText>
+                        </ThemedView>
                     </ThemedView>
                 ) : (
                     <ThemedText>No drinks available</ThemedText>
